@@ -49,7 +49,7 @@ func SendStatus(service string, msg []byte) {
 	udpAddr, err := net.ResolveUDPAddr("udp4", service)
 	checkError(err)
 
-	conn, err := net.DialUDP("udp", nil, udpAddr)
+	conn, err := net.DialUDP("udp4", nil, udpAddr)
 	checkError(err)
 	fmt.Println("Sending status...");
 	_, err = conn.Write([]byte(msg))
@@ -75,11 +75,11 @@ func FileFetcher(queue chan lds.NBEvent, files chan lds.BFile){
 
 func CreateStatusServer(queue chan lds.NBEvent) {
 	fmt.Println("creating...")
-	service := ":42000"
+	service := ":41000"
 	udpAddr, err := net.ResolveUDPAddr("udp4", service)
 	checkError(err)
 	fmt.Println(udpAddr)
-	conn, err := net.ListenUDP("udp", udpAddr)
+	conn, err := net.ListenUDP("udp4", udpAddr)
 	checkError(err)
 	for {
 		handleUDPClient(conn, queue)
