@@ -147,15 +147,18 @@ func handleUDPClient(conn *net.UDPConn, queue chan lds.NBEvent) {
 	if err != nil {
 		return
 	}
-	go handlePacket(buf, addr.IP.String(), queue);
+	go handlePacket(buf, s, addr.IP.String(), queue);
 }
 
-func handlePacket(buf []byte, ip String, queue chan lds.NBEvent){
+func handlePacket(buf []byte, s int, ip string, queue chan lds.NBEvent){
 	var msg = string( buf[0:s] );
 	//addr.IP.String()
 	fmt.Println(msg);
 	var m lds.BEvent
-	err = json.Unmarshal(buf, m)
+	err := json.Unmarshal(buf, m)
+	if err != nil {
+        fmt.Println(err)
+    }
 	var e lds.NBEvent
 	e.Fname = m.Fname
 	e.Etype = m.Etype
