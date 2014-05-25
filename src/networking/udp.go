@@ -39,7 +39,8 @@ func BroadcastEvents(service string, fevents chan *fsnotify.FileEvent) {
 		if err != nil {
 			os.Exit(1)
 		}
-		SendStatus(service, b)
+		fmt.Println(e.Etypestring);
+		go  SendStatus(service, b)
 	}
 }
 
@@ -75,7 +76,7 @@ func FileFetcher(queue chan lds.NBEvent, files chan lds.BFile){
 func CreateStatusServer(queue chan lds.NBEvent) {
 	fmt.Println("creating...")
 	service := ":42000"
-	udpAddr, err := net.ResolveUDPAddr("udp", service)
+	udpAddr, err := net.ResolveUDPAddr("udp4", service)
 	checkError(err)
 	fmt.Println(udpAddr)
 	conn, err := net.ListenUDP("udp", udpAddr)
