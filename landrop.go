@@ -28,6 +28,8 @@ func main() {
 	go files.WatchAndAlert("./share/", fromFStoUDPfevents)
 	go files.FileHandler(fsQueue)
 	go EventHandler(fromUDPtoEventHandlerEvents, fetchFileQueue, fsQueue)
+	var inputGuess float64
+	fmt.Scanf("%f", &inputGuess)
 
 }
 
